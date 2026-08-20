@@ -60,8 +60,11 @@ export function usePoseCoach(exerciseId: string, voiceOn: boolean) {
 
   const [state, setState] = useState<CoachState>(EMPTY);
   const [clipUrl, setClipUrl] = useState<string | null>(null);
+  const [clipBlob, setClipBlob] = useState<Blob | null>(null);
   const [recording, setRecording] = useState(false);
+  const [recordSeconds, setRecordSeconds] = useState(0);
   const [replaying, setReplaying] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     voiceRef.current = voiceOn;
@@ -290,17 +293,23 @@ export function usePoseCoach(exerciseId: string, voiceOn: boolean) {
     rec.ondataavailable = (e) => e.data.size && chunksRef.current.push(e.data);
     rec.onstop = () => {
       const blob = new Blob(chunksRef.current, { type: "video/webm" });
+      setClipBlob(blob);
       setClipUrl(URL.createObjectURL(blob));
     };
     recorderRef.current = rec;
     rec.start();
     setRecording(true);
+    setRecordSeconds(0);
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => setRecordSeconds((v) => v + 1), 1000);
   }, []);
 
   const stopRecording = useCallback(() => {
     recorderRef.current?.stop();
     recorderRef.current = null;
     setRecording(false);
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = null;
   }, []);
 
   /** Run the same on-device pipeline over a saved / uploaded clip. */
@@ -327,7 +336,13 @@ export function usePoseCoach(exerciseId: string, voiceOn: boolean) {
     [ensureLandmarker, loop, reset, stop],
   );
 
-  useEffect(() => () => stop(), [stop]);
+  useEffect(
+    () => () => {
+      stop();
+      if (timerRef.current) clearInterval(timerRef.current);
+    },
+    [stop],
+  );
 
   return {
     videoRef,
@@ -341,6 +356,9 @@ export function usePoseCoach(exerciseId: string, voiceOn: boolean) {
     stopRecording,
     clipUrl,
     setClipUrl,
+    clipBlob,
+    setClipBlob,
+    recordSeconds,
     analyzeClip,
     replaying,
   };
