@@ -14,6 +14,7 @@ import { Route as CoachRouteImport } from './routes/coach'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ExercisesRouteImport } from './routes/exercises'
 import { Route as ProgressRouteImport } from './routes/progress'
+import { Route as SchoolRouteImport } from './routes/school'
 import { Route as SummaryRouteImport } from './routes/summary'
 import { Route as TrainExerciseRouteImport } from './routes/train.$exercise'
 
@@ -42,6 +43,11 @@ const ProgressRoute = ProgressRouteImport.update({
   path: '/progress',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SchoolRoute = SchoolRouteImport.update({
+  id: '/school',
+  path: '/school',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SummaryRoute = SummaryRouteImport.update({
   id: '/summary',
   path: '/summary',
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRoute
   '/exercises': typeof ExercisesRoute
   '/progress': typeof ProgressRoute
+  '/school': typeof SchoolRoute
   '/summary': typeof SummaryRoute
   '/train/$exercise': typeof TrainExerciseRoute
 }
@@ -68,6 +75,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRoute
   '/exercises': typeof ExercisesRoute
   '/progress': typeof ProgressRoute
+  '/school': typeof SchoolRoute
   '/summary': typeof SummaryRoute
   '/train/$exercise': typeof TrainExerciseRoute
 }
@@ -78,6 +86,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/exercises': typeof ExercisesRoute
   '/progress': typeof ProgressRoute
+  '/school': typeof SchoolRoute
   '/summary': typeof SummaryRoute
   '/train/$exercise': typeof TrainExerciseRoute
 }
@@ -89,6 +98,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/exercises'
     | '/progress'
+    | '/school'
     | '/summary'
     | '/train/$exercise'
   fileRoutesByTo: FileRoutesByTo
@@ -98,6 +108,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/exercises'
     | '/progress'
+    | '/school'
     | '/summary'
     | '/train/$exercise'
   id:
@@ -107,6 +118,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/exercises'
     | '/progress'
+    | '/school'
     | '/summary'
     | '/train/$exercise'
   fileRoutesById: FileRoutesById
@@ -117,6 +129,7 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   ExercisesRoute: typeof ExercisesRoute
   ProgressRoute: typeof ProgressRoute
+  SchoolRoute: typeof SchoolRoute
   SummaryRoute: typeof SummaryRoute
   TrainExerciseRoute: typeof TrainExerciseRoute
 }
@@ -158,6 +171,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProgressRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/school': {
+      id: '/school'
+      path: '/school'
+      fullPath: '/school'
+      preLoaderRoute: typeof SchoolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/summary': {
       id: '/summary'
       path: '/summary'
@@ -181,6 +201,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   ExercisesRoute: ExercisesRoute,
   ProgressRoute: ProgressRoute,
+  SchoolRoute: SchoolRoute,
   SummaryRoute: SummaryRoute,
   TrainExerciseRoute: TrainExerciseRoute,
 }
