@@ -60,8 +60,11 @@ export function usePoseCoach(exerciseId: string, voiceOn: boolean) {
 
   const [state, setState] = useState<CoachState>(EMPTY);
   const [clipUrl, setClipUrl] = useState<string | null>(null);
+  const [clipBlob, setClipBlob] = useState<Blob | null>(null);
   const [recording, setRecording] = useState(false);
+  const [recordSeconds, setRecordSeconds] = useState(0);
   const [replaying, setReplaying] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     voiceRef.current = voiceOn;
