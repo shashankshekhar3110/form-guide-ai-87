@@ -32,6 +32,8 @@ export const POSE_CONNECTIONS: [number, number][] = [
   [26, 28],
 ];
 
+const g = (lm: LM[], i: number): LM => lm[i] ?? { x: 0, y: 0, z: 0 };
+
 export function angle(a: LM, b: LM, c: LM): number {
   const abx = a.x - b.x;
   const aby = a.y - b.y;
@@ -79,16 +81,16 @@ export type Exercise = {
 };
 
 const kneeAngle = (lm: LM[]) =>
-  (angle(lm[P.lHip], lm[P.lKnee], lm[P.lAnkle]) +
-    angle(lm[P.rHip], lm[P.rKnee], lm[P.rAnkle])) /
+  (angle(g(lm,P.lHip), g(lm,P.lKnee), g(lm,P.lAnkle)) +
+    angle(g(lm,P.rHip), g(lm,P.rKnee), g(lm,P.rAnkle))) /
   2;
 const elbowAngle = (lm: LM[]) =>
-  (angle(lm[P.lShoulder], lm[P.lElbow], lm[P.lWrist]) +
-    angle(lm[P.rShoulder], lm[P.rElbow], lm[P.rWrist])) /
+  (angle(g(lm,P.lShoulder), g(lm,P.lElbow), g(lm,P.lWrist)) +
+    angle(g(lm,P.rShoulder), g(lm,P.rElbow), g(lm,P.rWrist))) /
   2;
 const hipAngle = (lm: LM[]) =>
-  (angle(lm[P.lShoulder], lm[P.lHip], lm[P.lKnee]) +
-    angle(lm[P.rShoulder], lm[P.rHip], lm[P.rKnee])) /
+  (angle(g(lm,P.lShoulder), g(lm,P.lHip), g(lm,P.lKnee)) +
+    angle(g(lm,P.rShoulder), g(lm,P.rHip), g(lm,P.rKnee))) /
   2;
 
 export const EXERCISES: Exercise[] = [
@@ -186,24 +188,24 @@ export function analyzeFrame(
   cadenceSec: number,
 ): Metrics {
   const a = ex.primary(lm);
-  const shoulders = mid(lm[P.lShoulder], lm[P.rShoulder]);
-  const hips = mid(lm[P.lHip], lm[P.rHip]);
+  const shoulders = mid(g(lm,P.lShoulder), g(lm,P.rShoulder));
+  const hips = mid(g(lm,P.lHip), g(lm,P.rHip));
 
   const torsoTilt = tiltFromVertical(shoulders, hips);
   const posture = ex.isHold || ex.id === "pushup"
     ? clamp(100 - Math.abs(180 - hipAngle(lm)) * 2.2)
     : clamp(100 - Math.max(0, torsoTilt - 12) * 2.4);
 
-  const shoulderLevel = Math.abs(lm[P.lShoulder].y - lm[P.rShoulder].y);
-  const hipLevel = Math.abs(lm[P.lHip].y - lm[P.rHip].y);
+  const shoulderLevel = Math.abs(g(lm,P.lShoulder).y - g(lm,P.rShoulder).y);
+  const hipLevel = Math.abs(g(lm,P.lHip).y - g(lm,P.rHip).y);
   const balance = clamp(100 - (shoulderLevel + hipLevel) * 420);
 
   const leftPrim = ex.id === "squat" || ex.id === "lunge" || ex.id === "deadlift"
-    ? angle(lm[P.lHip], lm[P.lKnee], lm[P.lAnkle])
-    : angle(lm[P.lShoulder], lm[P.lElbow], lm[P.lWrist]);
+    ? angle(g(lm,P.lHip), g(lm,P.lKnee), g(lm,P.lAnkle))
+    : angle(g(lm,P.lShoulder), g(lm,P.lElbow), g(lm,P.lWrist));
   const rightPrim = ex.id === "squat" || ex.id === "lunge" || ex.id === "deadlift"
-    ? angle(lm[P.rHip], lm[P.rKnee], lm[P.rAnkle])
-    : angle(lm[P.rShoulder], lm[P.rElbow], lm[P.rWrist]);
+    ? angle(g(lm,P.rHip), g(lm,P.rKnee), g(lm,P.rAnkle))
+    : angle(g(lm,P.rShoulder), g(lm,P.rElbow), g(lm,P.rWrist));
   const alignment = clamp(100 - Math.abs(leftPrim - rightPrim) * 1.8);
 
   const depth = ex.isHold
