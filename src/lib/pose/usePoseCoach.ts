@@ -336,7 +336,13 @@ export function usePoseCoach(exerciseId: string, voiceOn: boolean) {
     [ensureLandmarker, loop, reset, stop],
   );
 
-  useEffect(() => () => stop(), [stop]);
+  useEffect(
+    () => () => {
+      stop();
+      if (timerRef.current) clearInterval(timerRef.current);
+    },
+    [stop],
+  );
 
   return {
     videoRef,
