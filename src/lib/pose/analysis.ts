@@ -167,8 +167,8 @@ export const EXERCISES: Exercise[] = [
   },
 ];
 
-export const getExercise = (id: string) =>
-  EXERCISES.find((e) => e.id === id) ?? EXERCISES[0];
+export const getExercise = (id: string): Exercise =>
+  (EXERCISES.find((e) => e.id === id) ?? EXERCISES[0]) as Exercise;
 
 export type Metrics = {
   angle: number;
