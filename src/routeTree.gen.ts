@@ -10,33 +10,128 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CoachRouteImport } from './routes/coach'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ExercisesRouteImport } from './routes/exercises'
+import { Route as ProgressRouteImport } from './routes/progress'
+import { Route as SchoolRouteImport } from './routes/school'
+import { Route as SummaryRouteImport } from './routes/summary'
+import { Route as TrainExerciseRouteImport } from './routes/train.$exercise'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CoachRoute = CoachRouteImport.update({
+  id: '/coach',
+  path: '/coach',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExercisesRoute = ExercisesRouteImport.update({
+  id: '/exercises',
+  path: '/exercises',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgressRoute = ProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SchoolRoute = SchoolRouteImport.update({
+  id: '/school',
+  path: '/school',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SummaryRoute = SummaryRouteImport.update({
+  id: '/summary',
+  path: '/summary',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrainExerciseRoute = TrainExerciseRouteImport.update({
+  id: '/train/$exercise',
+  path: '/train/$exercise',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/coach': typeof CoachRoute
+  '/dashboard': typeof DashboardRoute
+  '/exercises': typeof ExercisesRoute
+  '/progress': typeof ProgressRoute
+  '/school': typeof SchoolRoute
+  '/summary': typeof SummaryRoute
+  '/train/$exercise': typeof TrainExerciseRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/coach': typeof CoachRoute
+  '/dashboard': typeof DashboardRoute
+  '/exercises': typeof ExercisesRoute
+  '/progress': typeof ProgressRoute
+  '/school': typeof SchoolRoute
+  '/summary': typeof SummaryRoute
+  '/train/$exercise': typeof TrainExerciseRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/coach': typeof CoachRoute
+  '/dashboard': typeof DashboardRoute
+  '/exercises': typeof ExercisesRoute
+  '/progress': typeof ProgressRoute
+  '/school': typeof SchoolRoute
+  '/summary': typeof SummaryRoute
+  '/train/$exercise': typeof TrainExerciseRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/coach'
+    | '/dashboard'
+    | '/exercises'
+    | '/progress'
+    | '/school'
+    | '/summary'
+    | '/train/$exercise'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/coach'
+    | '/dashboard'
+    | '/exercises'
+    | '/progress'
+    | '/school'
+    | '/summary'
+    | '/train/$exercise'
+  id:
+    | '__root__'
+    | '/'
+    | '/coach'
+    | '/dashboard'
+    | '/exercises'
+    | '/progress'
+    | '/school'
+    | '/summary'
+    | '/train/$exercise'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CoachRoute: typeof CoachRoute
+  DashboardRoute: typeof DashboardRoute
+  ExercisesRoute: typeof ExercisesRoute
+  ProgressRoute: typeof ProgressRoute
+  SchoolRoute: typeof SchoolRoute
+  SummaryRoute: typeof SummaryRoute
+  TrainExerciseRoute: typeof TrainExerciseRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +143,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/coach': {
+      id: '/coach'
+      path: '/coach'
+      fullPath: '/coach'
+      preLoaderRoute: typeof CoachRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/exercises': {
+      id: '/exercises'
+      path: '/exercises'
+      fullPath: '/exercises'
+      preLoaderRoute: typeof ExercisesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/progress': {
+      id: '/progress'
+      path: '/progress'
+      fullPath: '/progress'
+      preLoaderRoute: typeof ProgressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/school': {
+      id: '/school'
+      path: '/school'
+      fullPath: '/school'
+      preLoaderRoute: typeof SchoolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/summary': {
+      id: '/summary'
+      path: '/summary'
+      fullPath: '/summary'
+      preLoaderRoute: typeof SummaryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/train/$exercise': {
+      id: '/train/$exercise'
+      path: '/train/$exercise'
+      fullPath: '/train/$exercise'
+      preLoaderRoute: typeof TrainExerciseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CoachRoute: CoachRoute,
+  DashboardRoute: DashboardRoute,
+  ExercisesRoute: ExercisesRoute,
+  ProgressRoute: ProgressRoute,
+  SchoolRoute: SchoolRoute,
+  SummaryRoute: SummaryRoute,
+  TrainExerciseRoute: TrainExerciseRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
