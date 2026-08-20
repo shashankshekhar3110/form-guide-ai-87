@@ -356,6 +356,9 @@ export function usePoseCoach(exerciseId: string, voiceOn: boolean) {
     stopRecording,
     clipUrl,
     setClipUrl,
+    clipBlob,
+    setClipBlob,
+    recordSeconds,
     analyzeClip,
     replaying,
   };
