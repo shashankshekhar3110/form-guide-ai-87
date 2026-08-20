@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as ExercisesRouteImport } from './routes/exercises'
+import { Route as ProgressRouteImport } from './routes/progress'
 import { Route as SummaryRouteImport } from './routes/summary'
 import { Route as TrainExerciseRouteImport } from './routes/train.$exercise'
 
@@ -30,6 +31,11 @@ const ExercisesRoute = ExercisesRouteImport.update({
   path: '/exercises',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProgressRoute = ProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SummaryRoute = SummaryRouteImport.update({
   id: '/summary',
   path: '/summary',
@@ -45,6 +51,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/exercises': typeof ExercisesRoute
+  '/progress': typeof ProgressRoute
   '/summary': typeof SummaryRoute
   '/train/$exercise': typeof TrainExerciseRoute
 }
@@ -52,6 +59,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/exercises': typeof ExercisesRoute
+  '/progress': typeof ProgressRoute
   '/summary': typeof SummaryRoute
   '/train/$exercise': typeof TrainExerciseRoute
 }
@@ -60,19 +68,33 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/exercises': typeof ExercisesRoute
+  '/progress': typeof ProgressRoute
   '/summary': typeof SummaryRoute
   '/train/$exercise': typeof TrainExerciseRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/exercises' | '/summary' | '/train/$exercise'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/exercises'
+    | '/progress'
+    | '/summary'
+    | '/train/$exercise'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/dashboard' | '/exercises' | '/summary' | '/train/$exercise'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/exercises'
+    | '/progress'
+    | '/summary'
+    | '/train/$exercise'
   id:
     | '__root__'
     | '/'
     | '/dashboard'
     | '/exercises'
+    | '/progress'
     | '/summary'
     | '/train/$exercise'
   fileRoutesById: FileRoutesById
@@ -81,6 +103,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRoute
   ExercisesRoute: typeof ExercisesRoute
+  ProgressRoute: typeof ProgressRoute
   SummaryRoute: typeof SummaryRoute
   TrainExerciseRoute: typeof TrainExerciseRoute
 }
@@ -108,6 +131,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ExercisesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/progress': {
+      id: '/progress'
+      path: '/progress'
+      fullPath: '/progress'
+      preLoaderRoute: typeof ProgressRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/summary': {
       id: '/summary'
       path: '/summary'
@@ -129,6 +159,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
   ExercisesRoute: ExercisesRoute,
+  ProgressRoute: ProgressRoute,
   SummaryRoute: SummaryRoute,
   TrainExerciseRoute: TrainExerciseRoute,
 }
